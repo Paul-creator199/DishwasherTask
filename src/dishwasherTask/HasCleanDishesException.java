@@ -1,8 +1,9 @@
 package dishwasherTask;
 
-public class HasCleanDishesException extends RuntimeException {
+class HasCleanDishesException extends Exception {
 
-    public HasCleanDishesException(String message) {
+    HasCleanDishesException(String message) {
+        super(message);
 
     }
 }

@@ -39,7 +39,6 @@ public class Dishwasher {
             System.out.print("Add more dishes.");
         } else {
             System.out.print("The dishwasher is full, you cannot add new dishes.");
-            //throw new DishwasherIsFullException("The dishwasher is full, you cannot add new dishes.");
         }
 
     }
@@ -51,16 +50,17 @@ public class Dishwasher {
      * @throws DishwasherIsStartedException if the dishwasher is already started
      * @throws HasCleanDishesException      if the dishwasher has clean dishes inside
      */
-    public void addElement(String dish) {
+    public void addElement(String dish) throws DishwasherIsStartedException, HasCleanDishesException {
         if (dishwasherStatus == Status.STARTED) {
             throw new DishwasherIsStartedException("The dishwasher is already started.");
-        } else if (numberOfCleanDishes != 0) {
+        }
+        if (numberOfCleanDishes != 0) {
             throw new HasCleanDishesException("The dishwasher has clean dishes inside.");
-        } else {
-            for (int i = 0; i <= capacity; i++) {
-                System.out.print("The " + dish + " was added.");
-                numberOfDirtyDishes++;
-            }
+        }
+
+        for (int i = 0; i <= capacity; i++) {
+            System.out.print("The " + dish + " was added.");
+            numberOfDirtyDishes++;
         }
     }
 
@@ -70,15 +70,15 @@ public class Dishwasher {
      * @throws DishwasherIsStartedException if the dishwasher is already started
      * @throws DishwasherIsEmptyException   if the dishwasher is empty
      */
-    public void takeAllDishes() {
+    public void takeAllDishes() throws DishwasherIsEmptyException, DishwasherIsStartedException {
         if (dishwasherStatus == Status.STARTED) {
             throw new DishwasherIsStartedException("Stop the dishwasher first.");
-        } else if (numberOfCleanDishes == 0 || numberOfDirtyDishes == 0) {
-            throw new DishwasherIsEmptyException("The dishwasher is empty.");
-        } else {
-            numberOfCleanDishes = 0;
-            numberOfDirtyDishes = 0;
         }
+        if (numberOfCleanDishes == 0 || numberOfDirtyDishes == 0) {
+            throw new DishwasherIsEmptyException("The dishwasher is empty.");
+        }
+        numberOfCleanDishes = 0;
+        numberOfDirtyDishes = 0;
 
     }
 
@@ -89,16 +89,20 @@ public class Dishwasher {
      * @throws HasCleanDishesException      if the dishwasher has clean dishes inside
      * @throws DishwasherIsEmptyException   if the dishwasher is empty
      */
-    public void startWork() {
+    public void startWork() throws DishwasherIsStartedException, HasCleanDishesException,
+            DishwasherIsEmptyException {
         if (dishwasherStatus == Status.STARTED) {
             throw new DishwasherIsStartedException("The dishwasher is already started.");
-        } else if (numberOfCleanDishes != 0) {
-            throw new HasCleanDishesException("The dishwasher has clean dishes inside.");
-        } else if (numberOfDirtyDishes == 0) {
-            throw new DishwasherIsEmptyException("The dishwasher is empty.");
-        } else {
-            dishwasherStatus = Status.STARTED;
         }
+        if (numberOfCleanDishes != 0) {
+            throw new HasCleanDishesException("The dishwasher has clean dishes inside.");
+        }
+        if (numberOfDirtyDishes == 0) {
+            throw new DishwasherIsEmptyException("The dishwasher is empty.");
+        }
+
+        dishwasherStatus = Status.STARTED;
+
     }
 
     /**
@@ -106,12 +110,11 @@ public class Dishwasher {
      *
      * @throws DishwasherIsStoppedException if the dishwasher is already stopped
      */
-    public void stopWork() {
+    public void stopWork() throws DishwasherIsStoppedException {
         if (dishwasherStatus == Status.STOPPED) {
-            throw new DishwasherIsStoppedException("The dishwasher is already stopped.");
-        } else {
-            dishwasherStatus = Status.STOPPED;
+            throw new DishwasherIsStoppedException("The dishwasher is already stopped");
         }
+        dishwasherStatus = Status.STOPPED;
     }
 }
 
