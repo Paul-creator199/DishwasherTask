@@ -1,6 +1,6 @@
 package dishwasherTask;
 
-class DishwasherIsEmptyException extends Exception {
+class DishwasherIsEmptyException extends RuntimeException {
 
     DishwasherIsEmptyException(String message) {
         super(message);

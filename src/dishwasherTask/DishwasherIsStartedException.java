@@ -1,6 +1,6 @@
 package dishwasherTask;
 
-class DishwasherIsStartedException extends Exception {
+class DishwasherIsStartedException extends RuntimeException {
 
 
     DishwasherIsStartedException(String message) {
